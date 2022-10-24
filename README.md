@@ -20,10 +20,9 @@ This repository has been tested and works for Ubuntu 20.6. Minimal system requir
 
 ## Usage
 
-To generate
 
-#### Palabos or the fluid solver
-Install Palabos from here, for more info see.
+#### Install Palabos as the fluid solver
+Install the latest version of Palabos [here](https://gitlab.com/unigespc/palabos), for more info see.
 
 In `AdvectionDiffusion/CMakeLists.txt` specify the location of your palabos library
 
@@ -65,7 +64,7 @@ The available shapes are
 * Groove
 * Offset (for the offset cubes)
 
-The dimensions of the elements are given by the following variables
+The dimensions of the elements are given by the following variables, and can be set in _ChannelGenerator.py_
 
 ![](images/Nanostructures.png)
 
