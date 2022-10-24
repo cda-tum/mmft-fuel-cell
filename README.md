@@ -1,45 +1,62 @@
 # MMFT Fuel Cell
 
-* What is this repository
-* It is developed by Chair for Design Automation at the Technical University of Munich
-* Munich MicroFluidic Toolkit (MMFT)
-* It allows to simulate the diffusion and advection of hydrogen in a unidirectional flow over an anode with nanostructures.
-* Additionally, the source code for the geometry generation is included, so
-* Citations ?
-* We used palabos, which is an open source LBM solver, which can be installed here. [cite]
-* For more information about our work on Microfluidics, please visit cda.cit.tum.de /research/Microfluidics
-* If you have any questions, feel free to contact us via microfluidics... or creating an issue on GitHub
+The Microfluidic Fuel Cell (MFFC) simulator is developed by the [Chair for Design Automation](https://www.cda.cit.tum.de/) at the [Technical University of Munich](https://www.tum.de/), as part of the Munich MicroFluidic Toolkit (MMFT). This simulator models the hydrogen transport in a liquid electrolyte for microfluidic applications on anode surfaces with _nanostructures_.
+
+The simulation is based on the Navier-Stokes equations with the advection-diffusion equation, and is solved with the lattice Boltzmann method (LBM). The LBM solver used is the Parallel Lattice Boltzmann Solver: [Palabos](https://palabos.unige.ch/) v2.3.0.
+
+[[1]](https://doi.org/10.1016/j.camwa.2020.03.022)  Latt, Jonas, et al. Palabos: parallel lattice Boltzmann solver. Computers & Mathematics with Applications, 2021.
+
+For more information about our work on Microfluidics, please visit [https://www.cda.cit.tum.de/research/microfluidics/]( https://www.cda.cit.tum.de/research/microfluidics/).
+
+If you have any questions, feel free to contact us via [microfluidics.cda@xcit.tum.de](microfluidics.cda@xcit.tum.de) or by creating an issue on GitHub.
 
 ## System Requirements
-* Same as for palabos
-* Python 3.10 to generate the geometries
-* tested only for ubuntu 20.6
+This repository has been tested and works for Ubuntu 20.6. Minimal system requirements are
+
+* Palabos v2.3.0
+* CMake version 2.8.12
+* MPI version 4.1
+* Python 3.10
 
 ## Usage
 
+To generate
 
 #### Palabos or the fluid solver
 Install Palabos from here, for more info see.
 
-In file XXX specify the location of your palabos library
+In `AdvectionDiffusion/CMakeLists.txt` specify the location of your palabos library
 
-then do
+```
+###############################################################################
+# Palabos Library
+###############################################################################
 
-`cmake`
+include_directories("pathToPalabos/src")
+include_directories("pathToPalabos/externalLibraries")
+include_directories("pathToPalabos/externalLibraries/Eigen3")
+
+file(GLOB_RECURSE PALABOS_SRC "pathToPalabos/src/*.cpp")
+file(GLOB_RECURSE EXT_SRC "pathToPalabos/externalLibraries/tinyxml/*.cpp")
+```
+
+then go to `build/` and do the following commands
+
+`cmake ..`
 
 `make`
 
-for a test run please do
+After the executable is created in `AdvectionDiffusion/` you can do a test run with
 
-`./runall.sh 1 50`
+`./run.sh 1 50`
 
-where 1 is nproc, and 50 is N, the amount of cells in the z direction
+to do a test run on cubic nanostructures, where 1 is nproc, and 50 is N, the amount of cells in the z direction
 
 #### Geometry generation
 
-To generate a shape with dimensions, please see the help output for each shape, e.g.
+To generate a shape with dimensions, use
 
-`python3 geometry -cube`
+`python3 ChannelGenerator.py`
 
 The available shapes are
 
@@ -48,7 +65,19 @@ The available shapes are
 * Groove
 * Offset (for the offset cubes)
 
+The dimensions of the elements are given by the following variables
+
+![](images/Nanostructures.png)
+
+Please note that for steps the channel width is 0, and for grooves, the channel length is 0. For offset cubes, choose channel width 0, to have an offset that is equal to the cube width.
+
 ## Example
 
+For a cube with channel width and length 300 nanometers, width and length 300 nanometers, andheight 400 nanometers, the resulting flow velocity field is shown below. The effective flux for this nanostructure is 780% better than for a flat surface, whereas the total surface is increased by 130%.
+
+![](images/Example.jpeg)
 
 ## Reference
+[[1]](https://doi.org/10.1016/j.camwa.2020.03.022)  Latt, Jonas, et al. Palabos: parallel lattice Boltzmann solver. Computers & Mathematics with Applications, 2021.
+
+[[2]](https://doi.org/10.1016/j.jpowsour.2017.02.079) Hashemi, S. M. H., et al. Membrane-less micro fuel cell based on two-phase flow. Journal of Power Sources, 2017.

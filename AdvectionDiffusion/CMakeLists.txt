@@ -1,7 +1,7 @@
 if(CI)
 ###############################################################################
 
-set(EXECUTABLE_NAME "customDiffusion3D")
+set(EXECUTABLE_NAME "AdvectionDiffusion")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -29,7 +29,7 @@ cmake_minimum_required(VERSION 2.8.12)
 project(palabosExample)
 enable_language(CXX)
 
-set(EXECUTABLE_NAME "customDiffusion3D")
+set(EXECUTABLE_NAME "AdvectionDiffusion")
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "../")
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -95,12 +95,12 @@ endif()
 # Palabos Library
 ###############################################################################
 
-include_directories("../../../src")
-include_directories("../../../externalLibraries")
-include_directories("../../../externalLibraries/Eigen3")
+include_directories("pathToPalabos/src")
+include_directories("pathToPalabos/externalLibraries")
+include_directories("pathToPalabos/externalLibraries/Eigen3")
 
-file(GLOB_RECURSE PALABOS_SRC "../../../src/*.cpp")
-file(GLOB_RECURSE EXT_SRC "../../../externalLibraries/tinyxml/*.cpp")
+file(GLOB_RECURSE PALABOS_SRC "pathToPalabos/src/*.cpp")
+file(GLOB_RECURSE EXT_SRC "pathToPalabos/externalLibraries/tinyxml/*.cpp")
 
 add_library(palabos STATIC ${PALABOS_SRC} ${EXT_SRC})
 
